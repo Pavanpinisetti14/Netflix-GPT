@@ -1,7 +1,19 @@
-import React from "react";
+import React, { useRef } from "react";
 import Header from "./Header";
-
+import { checkValidate } from "../utils/validate";
+import { useState } from "react";
 const Login = () => {
+  const email = useRef(null);
+  const password = useRef(null);
+  const [errormsg, setErrormsg] = useState("");
+
+  const HandleOnClick = () => {
+    //Validate The Email And Password
+    const msg = checkValidate(email.current.value, password.current.value);
+    setErrormsg(msg);
+    //SignIn/SignUP
+  };
+
   return (
     <div>
       <Header />
@@ -13,20 +25,30 @@ const Login = () => {
         />
       </div>
 
-      <form className="p-12 bg-black absolute w-3/12 my-20 mx-auto right-0 left-0 text-white rounded-lg bg-opacity-80">
+      <form
+        onSubmit={(e) => e.preventDefault()}
+        className="p-12 bg-black absolute w-3/12 my-20 mx-auto right-0 left-0 text-white rounded-lg bg-opacity-80"
+      >
         <h1 className="font-bold text-3xl py-4 ">Sign In</h1>
         <center>
           <input
             type="text"
+            ref={email}
             placeholder="E-mail Address"
             className="p-2 my-2 w-full bg-transparent border-2 outline-none rounded-lg"
           />
+
           <input
+            ref={password}
             type="Password"
             placeholder="Password"
             className="p-2 my-2 w-full bg-transparent border-2 outline-none rounded-lg"
           />
-          <button className="p-4 my-4 bg-red-600 w-full rounded-lg">
+          <p className="text-left text-red-600 font-bold tetx-lg">{errormsg}</p>
+          <button
+            className="p-4 my-4 bg-red-600 w-full rounded-lg"
+            onClick={HandleOnClick}
+          >
             Sign In
           </button>
           <h4 className="font-sans text-slate-400 ">OR</h4>
